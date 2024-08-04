@@ -57,7 +57,7 @@ extension Package {
     ) -> Package {
         return Package(
             name: "swift-date",
-            platforms: [.macOS(.v14), .iOS(.v17)],
+            platforms: [.macOS(.v10_15), .iOS(.v13), .watchOS(.v6), .tvOS(.v13)],
             products: [
                 .library(
                     name: .date,
