@@ -7,37 +7,57 @@
 
 import Foundation
 
+extension DateComponents {
+    internal static let allComponents: [Calendar.Component] =  [
+        .nanosecond, .second, .minute, .hour,
+        .day, .month, .year, .yearForWeekOfYear,
+        .weekOfYear, .weekday, .quarter, .weekdayOrdinal,
+        .weekOfMonth
+    ]
+}
+
 extension Int {
+    
+    internal func toDateComponents(type: Calendar.Component) -> DateComponents {
+            var dateComponents = DateComponents()
+            DateComponents.allComponents.forEach( { dateComponents.setValue(0, for: $0 )})
+            dateComponents.setValue(self, for: type)
+            dateComponents.setValue(0, for: .era)
+            return dateComponents
+        }
+    
     public var years: DateComponents {
-        .init(year: self)
+        toDateComponents(type: .year)
     }
     public var months: DateComponents {
-        .init(month: self)
+        toDateComponents(type: .month)
     }
     public var days: DateComponents {
-        .init(day: self)
+        toDateComponents(type: .day)
     }
     public var hours: DateComponents {
-        .init(hour: self)
+        toDateComponents(type: .hour)
     }
     public var minutes: DateComponents {
-        .init(minute: self)
+        toDateComponents(type: .minute)
     }
     public var seconds: DateComponents {
-        .init(second: self)
+        toDateComponents(type: .second)
     }
     public var nanoseconds: DateComponents {
-        .init(nanosecond: self)
+        toDateComponents(type: .nanosecond)
     }
+
+    public var quarters: DateComponents {
+        toDateComponents(type: .quarter)
+    }
+    
 //    public var weekdays: DateComponents {
 //        .init(weekday: self)
 //    }
 //    public var weekdayOrdinals: DateComponents {
 //        .init(weekdayOrdinal: self)
 //    }
-    public var quarters: DateComponents {
-        .init(quarter: self)
-    }
 //    public var weekOfMonths: DateComponents {
 //        .init(weekOfMonth: self)
 //    }
