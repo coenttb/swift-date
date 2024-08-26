@@ -13,15 +13,17 @@ extension Target.Dependency {
 }
 
 extension Target.Dependency {
-    static var malcommacSwiftDate: Self {
-        .product(
-            name: "SwiftDate",
-            package: "SwiftDate",
-            moduleAliases: [
-                "SwiftDate" : "MalcommacSwiftDate"
-            ]
-        )
-    }
+//    static var malcommacSwiftDate: Self {
+//        .product(
+//            name: "SwiftDate",
+//            package: "SwiftDate",
+//            moduleAliases: [
+//                "SwiftDate" : "MalcommacSwiftDate"
+//            ]
+//        )
+//    }
+    
+    static let time: Self = .product(name: "Time", package: "Time")
     
     static var dependencies: Self { .product(name: "Dependencies", package: "swift-dependencies") }
 }
@@ -29,7 +31,7 @@ extension Target.Dependency {
 extension [Target.Dependency] {
     static var shared: Self {
         [
-            .malcommacSwiftDate,
+//            .malcommacSwiftDate,
             .dependencies
         ]
     }
@@ -40,7 +42,8 @@ extension [Package.Dependency] {
         [
             .package(url: "https://github.com/apple/swift-collections.git", from: "1.1.2"),
             .package(url: "https://github.com/pointfreeco/swift-dependencies.git", from: "1.3.5"),
-            .package(url: "https://github.com/malcommac/SwiftDate.git", from: "7.0.0"),
+//            .package(url: "https://github.com/malcommac/SwiftDate.git", from: "7.0.0"),
+            .package(url: "https://github.com/davedelong/time", from: "1.0.0")
         ]
     }
 }
@@ -57,7 +60,13 @@ extension Package {
     ) -> Package {
         return Package(
             name: "swift-date",
-            platforms: [.macOS(.v10_15), .iOS(.v13), .watchOS(.v6), .tvOS(.v13)],
+            platforms: [
+                .macOS(.v13),
+                .iOS(.v16),
+                .tvOS(.v16),
+                .watchOS(.v9),
+                .macCatalyst(.v16),
+            ],
             products: [
                 .library(
                     name: .date,
@@ -80,7 +89,8 @@ extension Package {
                         dependencies: [.init(stringLiteral: target.name)]
                     )
                 }
-            ].flatMap { $0 }
+            ].flatMap { $0
+            }
         )
     }
 }
@@ -91,7 +101,8 @@ let package = Package.date(
             name: .date,
             library: true,
             dependencies: [
-                .malcommacSwiftDate
+//                .malcommacSwiftDate
+                .time
             ]
         ),
     ]
