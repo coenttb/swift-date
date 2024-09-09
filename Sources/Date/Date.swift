@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Dependencies
 
 extension DateComponents {
     internal static let allComponents: [Calendar.Component] =  [
@@ -16,56 +17,50 @@ extension DateComponents {
     ]
 }
 
+extension Date {
+    public init?(year: Int, month: Int, day: Int, hour: Int = 0, minute: Int = 0, second: Int = 0) {
+        @Dependency(\.calendar) var calendar
+        var dateComponents = DateComponents()
+        dateComponents.year = year
+        dateComponents.month = month
+        dateComponents.day = day
+        dateComponents.hour = hour
+        dateComponents.minute = minute
+        dateComponents.second = second
+        
+        guard let date = calendar.date(from: dateComponents)
+        else { return nil }
+        self = date
+    }
+}
+
+// Extension to represent time components
 extension Int {
-    
-    internal func toDateComponents(type: Calendar.Component) -> DateComponents {
-            var dateComponents = DateComponents()
-            DateComponents.allComponents.forEach( { dateComponents.setValue(0, for: $0 )})
-            dateComponents.setValue(self, for: type)
-            dateComponents.setValue(0, for: .era)
-            return dateComponents
-        }
-    
-    public var years: DateComponents {
-        toDateComponents(type: .year)
-    }
-    public var months: DateComponents {
-        toDateComponents(type: .month)
-    }
-    public var days: DateComponents {
-        toDateComponents(type: .day)
-    }
-    public var hours: DateComponents {
-        toDateComponents(type: .hour)
-    }
-    public var minutes: DateComponents {
-        toDateComponents(type: .minute)
-    }
-    public var seconds: DateComponents {
-        toDateComponents(type: .second)
-    }
-    public var nanoseconds: DateComponents {
-        toDateComponents(type: .nanosecond)
-    }
+    public var day: DateComponents { DateComponents(day: self) }
+    public var days: DateComponents { day }
+    public var month: DateComponents { DateComponents(month: self) }
+    public var months: DateComponents { month }
+    public var year: DateComponents { DateComponents(year: self) }
+    public var years: DateComponents { year }
+}
 
-    public var quarters: DateComponents {
-        toDateComponents(type: .quarter)
-    }
-    
-//    public var weekdays: DateComponents {
-//        .init(weekday: self)
-//    }
-//    public var weekdayOrdinals: DateComponents {
-//        .init(weekdayOrdinal: self)
-//    }
-//    public var weekOfMonths: DateComponents {
-//        .init(weekOfMonth: self)
-//    }
-//    public var weekOfYears: DateComponents {
-//        .init(weekOfYear: self)
-//    }
-//    public var yearForWeekOfYears: DateComponents {
-//        .init(yearForWeekOfYear: self)
-//    }
+// Operator overloading for date arithmetic
+public func +(lhs: Date, rhs: DateComponents) -> Date {
+    @Dependency(\.calendar) var calendar
+    return calendar.date(byAdding: rhs, to: lhs)!
+}
 
+public func -(lhs: Date, rhs: DateComponents) -> Date {
+    @Dependency(\.calendar) var calendar
+    return calendar.date(byAdding: rhs.negated(), to: lhs)!
+}
+
+extension DateComponents {
+    func negated() -> DateComponents {
+        var result = self
+        if let day = day { result.day = -day }
+        if let month = month { result.month = -month }
+        if let year = year { result.year = -year }
+        return result
+    }
 }
