@@ -67,15 +67,15 @@ extension DateComponents {
 
 
 extension Date {
-    func isAfter(_ date: Date) -> Bool {
+    public func isAfter(_ date: Date) -> Bool {
         return self > date
     }
     
-    func isBefore(_ date: Date) -> Bool {
+    public func isBefore(_ date: Date) -> Bool {
         return self < date
     }
     
-    func isSameDay(as date: Date) -> Bool {
+    public func isSameDay(as date: Date) -> Bool {
         @Dependency(\.calendar) var calendar
         return calendar.isDate(self, inSameDayAs: date)
     }
