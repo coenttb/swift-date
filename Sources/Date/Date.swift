@@ -84,94 +84,94 @@ extension Date {
 
 extension Date {
     
-    var era: Int {
+    public var era: Int {
         @Dependency(\.calendar) var calendar
         return calendar.component(.era, from: self)
     }
 
-    var year: Int {
+    public var year: Int {
         @Dependency(\.calendar) var calendar
         return calendar.component(.year, from: self)
     }
 
-    var month: Int {
+    public var month: Int {
         @Dependency(\.calendar) var calendar
         return calendar.component(.month, from: self)
     }
 
-    var day: Int {
+    public var day: Int {
         @Dependency(\.calendar) var calendar
         return calendar.component(.day, from: self)
     }
 
-    var hour: Int {
+    public var hour: Int {
         @Dependency(\.calendar) var calendar
         return calendar.component(.hour, from: self)
     }
 
-    var minute: Int {
+    public var minute: Int {
         @Dependency(\.calendar) var calendar
         return calendar.component(.minute, from: self)
     }
 
-    var second: Int {
+    public var second: Int {
         @Dependency(\.calendar) var calendar
         return calendar.component(.second, from: self)
     }
 
-    var weekday: Int {
+    public var weekday: Int {
         @Dependency(\.calendar) var calendar
         return calendar.component(.weekday, from: self)
     }
 
-    var weekdayOrdinal: Int {
+    public var weekdayOrdinal: Int {
         @Dependency(\.calendar) var calendar
         return calendar.component(.weekdayOrdinal, from: self)
     }
 
-    var quarter: Int {
+    public var quarter: Int {
         @Dependency(\.calendar) var calendar
         return calendar.component(.quarter, from: self)
     }
 
-    var weekOfMonth: Int {
+    public var weekOfMonth: Int {
         @Dependency(\.calendar) var calendar
         return calendar.component(.weekOfMonth, from: self)
     }
 
-    var weekOfYear: Int {
+    public var weekOfYear: Int {
         @Dependency(\.calendar) var calendar
         return calendar.component(.weekOfYear, from: self)
     }
 
-    var yearForWeekOfYear: Int {
+    public var yearForWeekOfYear: Int {
         @Dependency(\.calendar) var calendar
         return calendar.component(.yearForWeekOfYear, from: self)
     }
 
-    var nanosecond: Int {
+    public var nanosecond: Int {
         @Dependency(\.calendar) var calendar
         return calendar.component(.nanosecond, from: self)
     }
     
-    var calendar: Int {
+    public var calendar: Int {
         @Dependency(\.calendar) var calendar
         return calendar.component(.calendar, from: self)
     }
     
-    var timeZone: Int {
+    public var timeZone: Int {
         @Dependency(\.calendar) var calendar
         return calendar.component(.timeZone, from: self)
     }
     
     @available(macOS 14, iOS 17, tvOS 17, watchOS 10, *)
-    var isLeapMonth: Int {
+    public var isLeapMonth: Int {
         @Dependency(\.calendar) var calendar
         return calendar.component(.isLeapMonth, from: self)
     }
     
     @available(macOS 15, iOS 18, tvOS 18, watchOS 11, *)
-    var dayOfYear: Int {
+    public var dayOfYear: Int {
         @Dependency(\.calendar) var calendar
         return calendar.component(.dayOfYear, from: self)
     }
