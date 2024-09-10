@@ -75,15 +75,6 @@ public func -(lhs: Date, rhs: DateComponents) -> Date {
     return calendar.date(byAdding: rhs.negated(), to: lhs)!
 }
 
-extension DateComponents {
-    func negated() -> DateComponents {
-        var result = self
-        if let day = day { result.day = -day }
-        if let month = month { result.month = -month }
-        if let year = year { result.year = -year }
-        return result
-    }
-}
 
 
 extension Date {
@@ -316,5 +307,64 @@ public struct StringDateFormat: FormatStyle {
     let dateFormat: String
     public func format(_ value: Date) -> String {
         return DateFormatter.dateFormat(dateFormat).string(from: value)
+    }
+}
+
+
+extension DateComponents {
+    public static func + (lhs: DateComponents, rhs: DateComponents) -> DateComponents {
+        @Dependency(\.calendar) var calendar
+        let now = Date()
+        guard let date1 = calendar.date(byAdding: lhs, to: now),
+              let date2 = calendar.date(byAdding: rhs, to: date1) else {
+            return DateComponents()
+        }
+        return calendar.dateComponents(Set(DateComponents.allComponents), from: now, to: date2)
+    }
+
+    public static func - (lhs: DateComponents, rhs: DateComponents) -> DateComponents {
+        @Dependency(\.calendar) var calendar
+        let now = Date()
+        guard let date1 = calendar.date(byAdding: lhs, to: now),
+              let date2 = calendar.date(byAdding: rhs.negated(), to: date1) else {
+            return DateComponents()
+        }
+        return calendar.dateComponents(Set(DateComponents.allComponents), from: now, to: date2)
+    }
+
+    public static func * (lhs: DateComponents, rhs: Int) -> DateComponents {
+        @Dependency(\.calendar) var calendar
+        let now = Date()
+        var result = DateComponents()
+        
+        for component in DateComponents.allComponents {
+            if let value = lhs.value(for: component) {
+                result.setValue(value * rhs, for: component)
+            }
+        }
+        
+        guard let finalDate = calendar.date(byAdding: result, to: now) else {
+            return DateComponents()
+        }
+        
+        return calendar.dateComponents(Set(DateComponents.allComponents), from: now, to: finalDate)
+    }
+
+    public static func * (lhs: Int, rhs: DateComponents) -> DateComponents {
+        return rhs * lhs
+    }
+
+    func negated() -> DateComponents {
+        var result = self
+        for component in DateComponents.allComponents {
+            if let value = self.value(for: component) {
+                result.setValue(-value, for: component)
+            }
+        }
+        return result
+    }
+
+    public static var zero: DateComponents {
+        return DateComponents()
     }
 }

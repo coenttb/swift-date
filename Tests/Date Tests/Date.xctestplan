@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "DF10617A-9DA9-4439-84EC-6F42A5CBA755",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "Date Tests",
+        "name" : "Date Tests"
+      }
+    }
+  ],
+  "version" : 1
+}

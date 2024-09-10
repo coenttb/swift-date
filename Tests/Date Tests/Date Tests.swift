@@ -11,11 +11,13 @@ import Date
 
 @Test
 func test(){    
-    let systemClock = Clocks.system
-
-    let threeMonthsFromNow = systemClock.currentDay + .months(3)
     
-    let date: Date = .init(threeMonthsFromNow)
-    
-    print(date)
+    withDependencies {
+        $0.calendar = .current
+    } operation: {
+        let y = Date.now
+        
+        let x = 1.year + 6.minutes * 6
+        print((y + x).formatted(date: .long, time: .complete))
+    }
 }
